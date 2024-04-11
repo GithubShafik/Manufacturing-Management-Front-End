@@ -23,7 +23,7 @@ export default function ItemFindOrCreateAutoComplete({ setItemID }) {
     getAllItemsList();
   }, []);
 
-  const [itemCode, setItemCode] = React.useState(null);
+  const [itemCode, setItemCode] = React.useState();
   const [addNewModalopen, setaddNewModalOpen] = React.useState(false);
 
   const handleClose = () => {
