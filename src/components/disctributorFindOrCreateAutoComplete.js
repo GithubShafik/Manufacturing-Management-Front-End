@@ -40,34 +40,36 @@ export default function DistributorFindOrCreateAutoComplete({ setDistributorID }
 
   const [loading, setLoading] = React.useState(false);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true); // Show the loader
 
     try {
-      savedistributor(dialogValue).then((res) => {
-        if (res.status == "success") {
-          getalldistributors().then((res2) => {
-            if (res2.status == "success") {
-              setItems(res2.result);
-              setTimeout(() => {
-                setDistributor({
-                  name: res.result.name,
-                });
-                handleClose();
-                setLoading(false)
-              }, 1000);
-            }
-          });
+      const res = await savedistributor(dialogValue);
+      if (res && res.status === "success") {
+        const res2 = await getalldistributors();
+        if (res2 && res2.status === "success") {
+          setItems(res2.result);
+          setTimeout(() => {
+            setDistributor({
+              name: res.result.name,
+            });
+            handleClose();
+            setLoading(false);
+          }, 1000);
         }
-        setDistributorID(res.result._id);
-      });
+      }
+      if (res) {
+        setDistributorID(res.result?._id);
+      }
     } catch (error) {
       console.log(error);
     }
   };
 
-  
+  const isDistributorExists = (value) => {
+    return items.some((item) => item.name === value);
+  };
 
   return (
     <React.Fragment>
@@ -94,7 +96,7 @@ export default function DistributorFindOrCreateAutoComplete({ setDistributorID }
         filterOptions={(options, params) => {
           const filtered = filter(options, params);
 
-          if (params.inputValue !== "") {
+          if (params.inputValue !== "" && !isDistributorExists(params.inputValue)) {
             filtered.push({
               inputValue: params.inputValue,
               name: `Add "${params.inputValue}"`,

@@ -42,36 +42,36 @@ export default function ItemFindOrCreateAutoComplete({ setItemID }) {
 
   const [loading, setLoading] = React.useState(false);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true); // Show the loader
 
     try {
-      saveitem(dialogValue).then((res) => {
-        if (res.status == "success") {
-          getallitems().then((res2) => {
-            if (res2.status == "success") {
-              setItems(res2.result);
-              setTimeout(() => {
-                setItemCode({
-                  itemCode: res.result.itemcode,
-                });
-                handleClose(true)
-                setLoading(false)
-              }, 1000);
-            }
-          });
+      const res = await saveitem(dialogValue);
+      if (res && res.status === "success") {
+        const res2 = await getallitems();
+        if (res2 && res2.status === "success") {
+          setItems(res2.result);
+          setTimeout(() => {
+            setItemCode({
+              itemCode: res.result.itemcode,
+            });
+            handleClose(true);
+            setLoading(false);
+          }, 1000);
         }
-        setItemID(res.result._id);
-      });
+      }
+      if (res) {
+        setItemID(res.result?._id);
+      }
     } catch (error) {
       console.log(error);
     }
   };
+
   const isItemCodeExists = (value) => {
     return items.some((item) => item.itemcode === value);
   };
-
 
   return (
     <React.Fragment>
