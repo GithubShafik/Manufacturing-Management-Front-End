@@ -8,6 +8,7 @@ import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
 import Autocomplete, { createFilterOptions } from "@mui/material/Autocomplete";
 import { getallitems, saveitem } from "request/items";
+import { CircularProgress } from "@mui/material";
 
 const filter = createFilterOptions();
 
@@ -39,8 +40,12 @@ export default function ItemFindOrCreateAutoComplete({ setItemID }) {
     name: "",
   });
 
+  const [loading, setLoading] = React.useState(false);
+
   const handleSubmit = (event) => {
     event.preventDefault();
+    setLoading(true); // Show the loader
+
     try {
       saveitem(dialogValue).then((res) => {
         if (res.status == "success") {
@@ -51,7 +56,8 @@ export default function ItemFindOrCreateAutoComplete({ setItemID }) {
                 setItemCode({
                   itemCode: res.result.itemcode,
                 });
-                handleClose();
+                handleClose(true)
+                setLoading(false)
               }, 1000);
             }
           });
@@ -62,6 +68,10 @@ export default function ItemFindOrCreateAutoComplete({ setItemID }) {
       console.log(error);
     }
   };
+  const isItemCodeExists = (value) => {
+    return items.some((item) => item.itemcode === value);
+  };
+
 
   return (
     <React.Fragment>
@@ -88,7 +98,7 @@ export default function ItemFindOrCreateAutoComplete({ setItemID }) {
         filterOptions={(options, params) => {
           const filtered = filter(options, params);
 
-          if (params.inputValue !== "") {
+          if (params.inputValue !== "" && !isItemCodeExists(params.inputValue)) {
             filtered.push({
               inputValue: params.inputValue,
               itemcode: `Add "${params.inputValue}"`,
@@ -164,7 +174,7 @@ export default function ItemFindOrCreateAutoComplete({ setItemID }) {
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>
-            <Button type="submit">Add</Button>
+            {loading ? <CircularProgress /> : <Button type="submit">Add</Button>}
           </DialogActions>
         </form>
       </Dialog>

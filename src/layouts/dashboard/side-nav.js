@@ -71,7 +71,7 @@ export const SideNav = (props) => {
                 color="inherit"
                 variant="subtitle1"
               >
-              Manufecturing Management
+              Manufacturing Management
               </Typography>
             </div>
           </Box>

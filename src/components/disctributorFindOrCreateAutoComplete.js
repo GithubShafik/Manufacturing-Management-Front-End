@@ -8,6 +8,7 @@ import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
 import Autocomplete, { createFilterOptions } from "@mui/material/Autocomplete";
 import { getalldistributors, savedistributor } from "request/distributors";
+import { CircularProgress } from "@mui/material";
 
 const filter = createFilterOptions();
 
@@ -34,11 +35,15 @@ export default function DistributorFindOrCreateAutoComplete({ setDistributorID }
   };
 
   const [dialogValue, setDialogValue] = React.useState({
-    name: ""
+    name: "",
   });
+
+  const [loading, setLoading] = React.useState(false);
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    setLoading(true); // Show the loader
+
     try {
       savedistributor(dialogValue).then((res) => {
         if (res.status == "success") {
@@ -50,6 +55,7 @@ export default function DistributorFindOrCreateAutoComplete({ setDistributorID }
                   name: res.result.name,
                 });
                 handleClose();
+                setLoading(false)
               }, 1000);
             }
           });
@@ -60,6 +66,8 @@ export default function DistributorFindOrCreateAutoComplete({ setDistributorID }
       console.log(error);
     }
   };
+
+  
 
   return (
     <React.Fragment>
@@ -147,7 +155,7 @@ export default function DistributorFindOrCreateAutoComplete({ setDistributorID }
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>
-            <Button type="submit">Add</Button>
+            {loading ? <CircularProgress /> : <Button type="submit">Add</Button>}
           </DialogActions>
         </form>
       </Dialog>

@@ -101,8 +101,9 @@ const ItemSizeForm = ({ addFunction }) => {
                           id={`${item._id}`}
                           placeholder="0"
                           variant="standard"
-                          style={{ fontSize: "0.20rem" }}
+                          InputProps={{ style: { fontSize: "0.20rem", width: "33px" } }} // Fixed width
                           type="number"
+
                           onChange={onInputChange}
                         />
                       </TableCell>

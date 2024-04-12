@@ -61,11 +61,11 @@ export default function PrintModal({ data, open, setOpen, title }) {
                       ? moment(data?.stockData.items[0].date).format("DD-MM-YYYY")
                       : getTodayDate()}
                   </Grid>
-                  {data?.stockData.items[0]?.subDistributor && (
+                  {/* {data?.stockData.items[0]?.subDistributor && (
                     <Grid item xs={2} sm={2} md={2}>
                       Sub Distributor - {data?.stockData.items[0]?.subDistributor}
                     </Grid>
-                  )}
+                  )} */}
                   {data?.stockData.items[0]?.distributor && (
                     <Grid item xs={2} sm={2} md={2}>
                       Distributor - {data?.stockData.items[0]?.distributor}
