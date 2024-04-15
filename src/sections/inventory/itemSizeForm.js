@@ -39,7 +39,10 @@ const ItemSizeForm = ({ addFunction }) => {
       loading: "Saving...",
       success: <b>Saved Successfully!</b>,
       error: <b>Could Not Save Please Check Input Values!!!!</b>,
-    }); 
+    });
+    setItemID();
+    setDate(getTodayDate());
+    setSizeQtyData([]);
   };
   const onInputChange = (e) => {
     let sizeID = e.target.name;
@@ -103,7 +106,6 @@ const ItemSizeForm = ({ addFunction }) => {
                           variant="standard"
                           InputProps={{ style: { fontSize: "0.20rem", width: "33px" } }} // Fixed width
                           type="number"
-
                           onChange={onInputChange}
                         />
                       </TableCell>
