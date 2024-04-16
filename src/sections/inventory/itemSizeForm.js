@@ -40,8 +40,9 @@ const ItemSizeForm = ({ addFunction }) => {
       success: <b>Saved Successfully!</b>,
       error: <b>Could Not Save Please Check Input Values!!!!</b>,
     });
-    setItemID();
-    setDate(getTodayDate());
+    sizes.map((size)=>{
+      document.getElementById(size._id).value = ""
+    })
     setSizeQtyData([]);
   };
   const onInputChange = (e) => {
