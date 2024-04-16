@@ -157,7 +157,7 @@ export default function DistributorFindOrCreateAutoComplete({ setDistributorID }
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>
-            {loading ? <CircularProgress /> : <Button type="submit">Add</Button>}
+            {loading ? <CircularProgress size="2rem" /> : <Button type="submit">Add</Button>}
           </DialogActions>
         </form>
       </Dialog>
