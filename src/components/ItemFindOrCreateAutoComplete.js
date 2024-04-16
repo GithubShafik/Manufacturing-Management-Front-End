@@ -134,7 +134,7 @@ export default function ItemFindOrCreateAutoComplete({ setItemID }) {
         )}
       />
 
-      <Dialog open={addNewModalopen} onClose={handleClose}>
+      <Dialog open={addNewModalopen} onClose={handleClose} >
         <form onSubmit={handleSubmit}>
           <DialogTitle>Add a new design code</DialogTitle>
           <DialogContent>
@@ -170,11 +170,12 @@ export default function ItemFindOrCreateAutoComplete({ setItemID }) {
               label="Description"
               type="text"
               variant="standard"
+              sx={{width: '150px'}}
             />
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>
-            {loading ? <CircularProgress /> : <Button type="submit">Add</Button>}
+            {loading ? <CircularProgress size="2rem" /> : <Button type="submit">Add</Button>}
           </DialogActions>
         </form>
       </Dialog>
